@@ -16,9 +16,8 @@
 			<button onclick="play()">Resume</button>
 			<button onclick="pause()">Pause</button>
 			<span>Speed : </span>
-			<input type="range" name="speed" id="speedRange" min="0.1" max="3" step="0.2" 
-				onchange="updateSpeed(this.value)" onKeyUp="updateSpeed(this.value)">
 			<span id="speedValueSpan"></span>
+			<input type="range" name="speed" id="speedRange" min="0.1" max="3" step="0.2" oninput="updateSpeed(this.value)">
 		</div>
 	</div>
 	<script type="text/javascript" src="app.js"></script>
