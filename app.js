@@ -13,7 +13,9 @@ frameTimer = 1000 / frameRate,
 speed = 1,
 paused = false,
 balls = [],
-speedSpan = document.getElementById('speedValueSpan');
+speedSpan = document.getElementById('speedValueSpan'),
+isInit = true,
+delta = 10;
 
 // RequestAnimFrame: a browser API for getting smooth animations
 window.requestAnimFrame = (function(){
@@ -28,11 +30,11 @@ window.requestAnimFrame = (function(){
 })();
 
 //To define ball Class
-function Ball(pX,pY) {
-	this.x = pX;
-	this.y = pY;
+function Ball(px,py,dx,dy) {
+	this.x = px;
+	this.y = py;
 	this.radius = 20;
-	this.target = {x:4,y:-4};
+	this.target = {x: dx,y: dy};
 	this.ballColor = "#" + Math.random().toString(16).slice(2, 8).toUpperCase();
 }
 
@@ -71,9 +73,16 @@ function animate() {
 canvas.onmousedown = function(e) {
 	var x = e.clientX - canvas.getBoundingClientRect().left;
 	var y = e.clientY - canvas.getBoundingClientRect().top;
-	var ball = new Ball(x,y);
+	var direction = Math.round((Math.random() * delta - delta / 2));
+	if(direction == 0) direction = 1;
+    var dx = direction * speed;
+    var dy = direction * speed;
+	var ball = new Ball(x,y,dx,dy);
 	balls.push(ball);
-	animate();
+	if(isInit) { // TO call the animation function once. As the init method starts on mouse down
+		animate();
+		isInit = false;
+	}
 }
 
 //On Resume button click
